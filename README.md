@@ -6,18 +6,16 @@ jupyter:
       format_name: markdown
       format_version: '1.3'
   kernelspec:
-    display_name: Python 3
+    display_name: Python D
     language: python
     name: python3
 ---
 
 # SIGATI - Sistema de Gestão de Ativos de TI
 
-Comecei reorganizando o projeto para deixar cada arquivo com uma função clara. Mantive o armazenamento em JSON, preservei os menus e separei o fluxo principal das operações do sistema.
-
 ## Arquivo `tipos.py`
 
-Neste arquivo deixei os valores fixos do sistema. Troquei as enumerações por dicionários simples, porque essa estrutura é suficiente para relacionar cada código ao texto exibido no programa.
+Neste arquivo deixei os valores fixos do sistema. Troquei as enumerações por dicionários simples, porque essa estrutura é suficiente para relacionar cada código ao texto exibido no programa, antes tava uma coisa muito complicada usando enum.
 
 ```python
 TIPOS_ATIVO = {
@@ -46,7 +44,7 @@ STATUS_VULN = {
 }
 ```
 
-Depois criei uma função pequena para transformar o código salvo no JSON em texto. Assim, as telas não precisam repetir essa conversão.
+Depois criei uma função pequena para transformar o código salvo no JSON em texto. Assim, as telas não precisam repetir essa conversão,
 
 ```python
 def nome_opcao(opcoes, valor):
@@ -58,7 +56,7 @@ def nome_opcao(opcoes, valor):
 
 ## Arquivo `dados.py`
 
-Neste arquivo concentrei a leitura e a gravação dos arquivos. Mantive o uso de JSON porque ele é direto e facilita a conferência dos dados salvos.
+Em dados eu concentrei a leitura e a gravação dos arquivos. Tambem mantive o uso de JSON porque ele é direto e facilita a conferência dos dados salvos.
 
 ```python
 import json
@@ -69,7 +67,7 @@ ARQ_ATIVOS = os.path.join(PASTA, 'ativos.json')
 ARQ_VULNS = os.path.join(PASTA, 'vulns.json')
 ```
 
-Separei as funções genéricas de salvar e carregar. Com isso, ativos e vulnerabilidades usam a mesma lógica de arquivo.
+Separei as funções de salvar e carregar. Com isso ativos e vulnerabilidades usam a mesma lógica de arquivo.
 
 ```python
 def salvar_json(caminho, dados):
@@ -84,7 +82,7 @@ def carregar_json(caminho):
         return {}
 ```
 
-Também mantive a criação automática da pasta e dos arquivos. Isso evita erro na primeira execução do sistema.
+Também mantive a criação automática da pasta e dos arquivos para evita erro na primeira execução do programa.
 
 ```python
 def criar_arquivo(caminho):
@@ -115,7 +113,7 @@ def salvar_vulns(vulns):
 
 ## Arquivo `operacoes.py`
 
-Criei este arquivo para tirar as operações do `main.py`. Aqui ficam os dados carregados, as funções de tela, as buscas, os cadastros e o menu.
+Criei este arquivo para tirar as operações do `main.py`. Aqui ficam os dados carregados, as funções de tela, as buscas, os cadastros e o menu, antes o main tava enorme, então modularizei um pouco.
 
 ```python
 import os
@@ -145,7 +143,7 @@ def montar_indice_nomes():
     return indice
 ```
 
-Depois organizei as rotinas de tela e entrada de dados. Mantive funções simples para validar número, texto e escolha de opções.
+Depois organizei a tela e entrada de dados com funções simples para validar número, texto e escolha de opções.
 
 ```python
 def limpar():
@@ -191,7 +189,7 @@ def escolher(opcoes, rotulo):
     return ler_inteiro('  Opção: ', minimo=1, maximo=len(opcoes))
 ```
 
-Separei as funções de apoio usadas por várias operações. Elas localizam registros e exibem as informações em um formato único.
+Separei as funções usadas por várias operações. Elas localizam registros e exibem as informações em um formato único.
 
 ```python
 def proximo_id(dic):
@@ -238,7 +236,7 @@ def exibir_vuln(vuln):
     print(f"  Status     : {nome_opcao(STATUS_VULN, vuln['status'])}")
 ```
 
-Para cadastrar ativo, extraí a validação de ID e hostname. Assim, a função de cadastro ficou mais curta.
+Para cadastrar ativo, tirei a validação de ID e hostname. Assim, a função de cadastro ficou mais curta.
 
 ```python
 def ler_id_ativo_novo():
@@ -279,7 +277,7 @@ def cadastrar_ativo():
     pausar()
 ```
 
-Em seguida organizei as demais operações de ativo. Mantive as mesmas regras de consulta, listagem, atualização e remoção.
+Depois eu organizei as demais operações de ativo. Mantive as mesmas regras de consulta, listagem, atualização e remoção.
 
 ```python
 def consultar_ativo():
@@ -361,7 +359,7 @@ def remover_ativo():
     pausar()
 ```
 
-Depois mantive as operações de vulnerabilidade. Elas continuam vinculadas ao ativo selecionado antes de qualquer alteração.
+Mantive as operações de vulnerabilidade. Elas continuam vinculadas ao ativo selecionado antes de qualquer alteração.
 
 ```python
 def cadastrar_vuln():
@@ -410,7 +408,7 @@ def ver_vulns():
     pausar()
 ```
 
-Para atualização de vulnerabilidade, separei a listagem resumida. Isso evita deixar a função principal dessa etapa muito grande.
+Separei a listagem resumida. Isso evita deixar a função principal dessa etapa muito grande.
 
 ```python
 def mostrar_resumo_vulns(ativo):
@@ -453,7 +451,7 @@ def atualizar_vuln():
     pausar()
 ```
 
-Por fim, deixei o menu e o laço principal neste arquivo. Usei `if` e `elif` para deixar a escolha das opções mais explícita.
+Deixei o menu e o laço principal neste arquivo. Usei `if` e `elif` para deixar a escolha das opções mais fácil de distinguir.
 
 ```python
 def menu():
