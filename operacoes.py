@@ -33,6 +33,7 @@ def pausar():
     print()
     input('  Pressione Enter para continuar')
 
+
 def ler_inteiro(prompt, minimo=None, maximo=None):
     while True:
         try:
@@ -110,7 +111,7 @@ def ler_id_ativo_novo():
         novo_id = ler_inteiro('  ID do ativo (inteiro único): ', minimo=1)
         if str(novo_id) not in ativos:
             return novo_id
-        print(f'  ID {novo_id} já está em uso.')
+        print(f'  ID {novo_id} já tá em uso.')
 
 def ler_hostname_novo():
     while True:
@@ -194,7 +195,7 @@ def atualizar_ativo():
         dados['descricao'] = nova_desc
     ativos[id_str] = dados
     salvar_ativos(ativos)
-    print('  [✓] Ativo atualizado.')
+    print('  Ativo atualizado.')
     pausar()
 
 def remover_ativo():
@@ -206,7 +207,7 @@ def remover_ativo():
     qtd = len(dados.get('vulnerabilidades', []))
     print(f"  Ativo: {dados['hostname']} (ID {dados['id']})")
     if qtd:
-        print(f'  [!] {qtd} vulnerabilidade(s) associada(s) também será(ão) removida(s).')
+        print(f'    ! {qtd} As vulnerabilidades associadas também serão removidas.')
     if ler_texto('  Confirmar remoção? (s/N): ', obrigatorio=False).lower() != 's':
         print('  Operação cancelada.')
         pausar()
@@ -221,7 +222,7 @@ def remover_ativo():
     pausar()
 
 def cadastrar_vuln():
-    titulo('Cadastrar Vulnerabilidade')
+    titulo('Cadastrar vulnerabilidade')
     id_str, ativo = buscar_ativo()
     if not ativo:
         pausar()
@@ -309,6 +310,7 @@ def menu():
         SIGATI — Sistema de Gestão de Ativos de TI
         
         ATIVOS
+          
         1 - Cadastrar ativo
         2 - Consultar ativo
         3 - Atualizar ativo
@@ -316,6 +318,7 @@ def menu():
         5 - Listar ativos
         
         VULNERABILIDADES
+          
         6 - Cadastrar vulnerabilidade
         7 - Visualizar vulnerabilidades
         8 - Atualizar vulnerabilidade

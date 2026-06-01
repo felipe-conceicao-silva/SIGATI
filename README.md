@@ -1,16 +1,3 @@
----
-jupyter:
-  jupytext:
-    text_representation:
-      extension: .md
-      format_name: markdown
-      format_version: '1.3'
-  kernelspec:
-    display_name: Python D
-    language: python
-    name: python3
----
-
 # SIGATI - Sistema de Gestão de Ativos de TI
 
 ## Arquivo `tipos.py`
